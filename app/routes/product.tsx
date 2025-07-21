@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { data, Link } from "react-router";
 import type { Route } from "./+types/product";
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
@@ -7,10 +7,17 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   const product = await res.json();
   console.log(`Product ${product.id} loaded`);
 
-  return {
-    product,
-    date: new Date().toISOString(),
-  };
+  return data(
+    {
+      product,
+      date: new Date().toISOString(),
+    },
+    {
+      headers: {
+        "Cache-Control": "public, max-age=3600", // Cache for 1 hour
+      },
+    }
+  );
 };
 
 export default function Products({

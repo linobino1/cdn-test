@@ -20,6 +20,18 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   );
 };
 
+export const action = async ({ request }: Route.ActionArgs) => {
+  const url = `${process.env.HOSTNAME}${new URL(request.url).pathname}`;
+  console.log(`Purging cache for ${url}`);
+  const res = await fetch(`https://api.fastly.com/purge/${url}`, {
+    method: "POST",
+    headers: {
+      "Fastly-Key": process.env.FASTLY_API_KEY!,
+    },
+  });
+  console.log(`Cache purge response: ${res.status} ${res.statusText}`);
+};
+
 export function headers({ loaderHeaders }: HeadersArgs) {
   return loaderHeaders;
 }
@@ -38,6 +50,14 @@ export default function Products({
       />
       <p className="mt-4">{product.description}</p>
       <p className="font-bold mt-4">Price: ${product.price}</p>
+      <form method="post" className="mt-6">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Purge Cache
+        </button>
+      </form>
       <Link to="/" className="text-blue-500 mt-8 block hover:underline">
         Back to Products
       </Link>

@@ -9,14 +9,16 @@ export const loader = async () => {
 
   return {
     products,
+    date: new Date().toISOString(),
   };
 };
 
 export default function Products({
-  loaderData: { products },
+  loaderData: { products, date },
 }: Route.ComponentProps) {
   return (
     <div>
+      <p className="mb-4 text-sm text-gray-500">Loaded at {date}</p>
       <h1 className="text-2xl font-bold">Products</h1>
       <ul className="mt-4">
         {products.map((product: any) => (

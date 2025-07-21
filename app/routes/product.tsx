@@ -9,14 +9,16 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
 
   return {
     product,
+    date: new Date().toISOString(),
   };
 };
 
 export default function Products({
-  loaderData: { product },
+  loaderData: { product, date },
 }: Route.ComponentProps) {
   return (
     <div className="max-w-prose">
+      <p className="mb-4 text-sm text-gray-500">Loaded at {date}</p>
       <h1 className="text-2xl font-bold">{product.title}</h1>
       <img
         src={product.thumbnail}

@@ -1,4 +1,4 @@
-import { data, Link } from "react-router";
+import { data, Link, type HeadersArgs } from "react-router";
 import type { Route } from "./+types/product";
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
@@ -19,6 +19,10 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     }
   );
 };
+
+export function headers({ loaderHeaders }: HeadersArgs) {
+  return loaderHeaders;
+}
 
 export default function Products({
   loaderData: { product, date },

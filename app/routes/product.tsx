@@ -14,7 +14,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     },
     {
       headers: {
-        "Cache-Control": "public, max-age=3600", // Cache for 1 hour
+        "Cache-Control": "public, max-age=3600, s-maxage=3600", // Cache for 1 hour
       },
     }
   );

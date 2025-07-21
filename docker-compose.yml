@@ -1,0 +1,22 @@
+services:
+  varnish:
+    image: varnish:stable
+    container_name: varnish
+    volumes:
+      - "./default.vcl:/etc/varnish/default.vcl"
+    ports:
+      - "8080:80"
+    tmpfs:
+      - /var/lib/varnish:exec
+    environment:
+      - VARNISH_SIZE=2G
+    depends_on:
+      - "app"
+
+  app:
+    build: .
+    volumes:
+      - ".:/app"
+    ports:
+      - "3000:3000"
+    env_file: .env
